@@ -8,7 +8,7 @@ export class DataBasePostgres {
       books =
         await sql`select * from books where title ilike ${"%" + search + "%"}`;
     } else {
-      books = await sql`select * from books`;
+      books = await sql`select 'test' as test,* from books`;
     }
     return books;
   }
