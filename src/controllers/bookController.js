@@ -5,31 +5,31 @@ import "dotenv/config";
 
 class BookController {
   // NOTE: Cria a conexão com a base de dados (mysql , postgres ou memory)
-  #database;
+  #service;
   // NOTE: Dentro do construtor verifica e estabelece um conexão
   constructor() {
     if (process.env.USEMYSQL == "true" || process.env.USEMYSQL == true) {
-      this.#database = new BookServiceMysql();
+      this.#service = new BookServiceMysql();
     } else if (
       process.env.USEPOSTGRES == "true" ||
       process.env.USEPOSTGRES == true
     ) {
-      this.#database = new BookServicePostgres();
+      this.#service = new BookServicePostgres();
     } else {
-      this.#database = new BookServiceMemory();
+      this.#service = new BookServiceMemory();
     }
   }
 
   async list(request, reply) {
     const search = request.query.search;
-    const books = await this.#database.list(search);
+    const books = await this.#service.list(search);
     return books;
   }
 
   async create(request, reply) {
     const { title, description, year } = request.body;
 
-    await this.#database.create({
+    await this.#service.create({
       title,
       description,
       year,
@@ -41,14 +41,14 @@ class BookController {
   async update(request, reply) {
     const bookId = request.params.id;
     const { title, description, year } = request.body;
-    await this.#database.update(bookId, { title, description, year });
+    await this.#service.update(bookId, { title, description, year });
 
     return reply.status(204).send();
   }
 
   async delete(request, reply) {
     const bookId = request.params.id;
-    await this.#database.delete(bookId);
+    await this.#service.delete(bookId);
     return reply.status(204).send();
   }
 }
