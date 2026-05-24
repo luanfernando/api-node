@@ -1,10 +1,22 @@
 import { fastify } from "fastify";
 import { DataBaseMemory } from "./database-memory.js";
 import { DataBasePostgres } from "./database-postgres.js";
+import { DataBaseMysql } from "./database-mysql.js";
+import "dotenv/config";
+// import cors from "cors";
 
 const server = fastify();
-// const database = new DataBaseMemory();
-const database = new DataBasePostgres();
+let database;
+if (process.env.USEMYSQL == "true" || process.env.USEMYSQL == true) {
+  database = new DataBaseMysql();
+} else if (
+  process.env.USEPOSTGRES == "true" ||
+  process.env.USEPOSTGRES == true
+) {
+  database = new DataBasePostgres();
+} else {
+  database = new DataBaseMemory();
+}
 
 // http://localhost:3333/books
 server.post("/books", async (request, reply) => {
