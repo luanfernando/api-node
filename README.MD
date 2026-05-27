@@ -11,3 +11,5 @@ npm install mysql2 cors
 npm install bcryptjs
 
 npm install jsonwebtoken
+
+npm install @fastify/jwt
