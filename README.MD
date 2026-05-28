@@ -13,3 +13,5 @@ npm install bcryptjs
 npm install jsonwebtoken
 
 npm install @fastify/jwt
+
+npm install fastify @fastify/swagger @fastify/swagger-ui
