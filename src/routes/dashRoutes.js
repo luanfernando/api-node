@@ -6,7 +6,29 @@ export async function dashRoutes(fastify, options) {
   //   fastify.addHook('preHandler', authMiddleware);
 
   // http://localhost:3333/dashboard
-  fastify.get("/", { preHandler: [authMiddleware] }, (request, reply) =>
-    UserController.list(request, reply),
+  fastify.get(
+    "/",
+    {
+      preHandler: [authMiddleware],
+      schema: {
+        description: "Dashboard",
+        tags: ["Dashboard"],
+        // Define que esta rota precisa do token JWT
+        security: [
+          {
+            bearerAuth: [],
+          },
+        ],
+        response: {
+          201: {
+            type: "object",
+            properties: {
+              mensagem: { type: "string" },
+            },
+          },
+        },
+      },
+    },
+    async (request, reply) => UserController.list(request, reply),
   );
 }

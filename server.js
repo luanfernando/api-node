@@ -1,4 +1,5 @@
 import { fastify } from "fastify";
+
 import fastifyJwt from "@fastify/jwt";
 import { bookRoutes } from "./src/routes/bookRoutes.js";
 import { userRoutes } from "./src/routes/userRoutes.js";
@@ -10,7 +11,7 @@ import { fastifySwaggerUi } from "@fastify/swagger-ui";
 import "dotenv/config";
 
 // NOTE: Instancia do fastify
-const server = fastify();
+const server = fastify({ logger: false });
 
 // Registre o plugin do JWT antes das rotas
 server.register(fastifyJwt, {
@@ -26,6 +27,17 @@ await server.register(fastifySwagger, {
       version: "1.0.0",
     },
     servers: [{ url: "http://localhost:3333" }],
+    // Define que algumas rotas precisam do token JWT
+    components: {
+      securitySchemes: {
+        bearerAuth: {
+          type: "http",
+          scheme: "bearer",
+          bearerFormat: "JWT",
+          description: "Insira o token JWT gerado no login para acessar a rota",
+        },
+      },
+    },
   },
 });
 
