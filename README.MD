@@ -15,3 +15,11 @@ npm install jsonwebtoken
 npm install @fastify/jwt
 
 npm install fastify @fastify/swagger @fastify/swagger-ui
+
+npm install nodemailer
+
+npm install mailtrap
+
+## ENVIO DE E-MAIL USANDO SANDBOX MAILTRAP
+
+Link: https://mailtrap.io
